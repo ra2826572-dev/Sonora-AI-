@@ -24,19 +24,27 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('voxora_user');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { return null; }
+      try { 
+        const parsed = JSON.parse(saved);
+        // If legacy demo users exist in localStorage, automatically upgrade to Rizwan
+        if (parsed.email === 'marcus@creator.io' || parsed.email === 'sarah@soundwave.fm' || parsed.id === 'u_user1') {
+          // Fall through to Rizwan
+        } else {
+          return parsed;
+        }
+      } catch (e) { /* ignore */ }
     }
-    // Default logged in with Marcus Sterling so user can immediately experience the studio
+    // Default root administrator Rizwan
     return {
-      id: 'u_user1',
-      name: 'Marcus Sterling',
-      username: 'marcus',
-      email: 'marcus@creator.io',
-      role: 'user',
-      plan: 'pro',
-      credits: 1000,
-      creditsUsed: 140,
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+      id: 'u_admin',
+      name: 'Rizwan (Web Designer & Developer)',
+      username: 'rizwan',
+      email: 'ra2826572@gmail.com',
+      role: 'admin',
+      plan: 'business',
+      credits: 100000,
+      creditsUsed: 0,
+      avatar: '/rizwan_admin.jpg',
       createdAt: new Date().toISOString()
     };
   });

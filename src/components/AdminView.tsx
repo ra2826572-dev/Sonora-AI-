@@ -27,6 +27,7 @@ import {
   ArrowRight,
   Mail
 } from 'lucide-react';
+import rizwanAdminBadge from '../assets/images/rizwan_admin_badge_1790424131779.jpg';
 
 interface AdminViewProps {
   currentUser: User | null;
@@ -34,8 +35,20 @@ interface AdminViewProps {
 
 export const AdminView: React.FC<AdminViewProps> = ({ currentUser }) => {
   const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
-    return currentUser?.role === 'admin' || sessionStorage.getItem('voxora_admin_unlocked') === 'true';
+    return (
+      currentUser?.role === 'admin' || 
+      currentUser?.email === 'ra2826572@gmail.com' ||
+      currentUser?.username === 'rizwan' ||
+      sessionStorage.getItem('voxora_admin_unlocked') === 'true'
+    );
   });
+
+  useEffect(() => {
+    if (currentUser?.role === 'admin' || currentUser?.email === 'ra2826572@gmail.com' || currentUser?.username === 'rizwan') {
+      setIsUnlocked(true);
+      sessionStorage.setItem('voxora_admin_unlocked', 'true');
+    }
+  }, [currentUser]);
   const [passwordInput, setPasswordInput] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [verifying, setVerifying] = useState(false);
@@ -118,10 +131,11 @@ export const AdminView: React.FC<AdminViewProps> = ({ currentUser }) => {
         <div className="bg-[#0e1424] border border-slate-800 rounded-3xl w-full max-w-md p-8 shadow-2xl relative text-center">
           <div className="relative mx-auto mb-5 w-24 h-24">
             <img 
-              src="/rizwan_admin.jpg" 
+              src={rizwanAdminBadge} 
               alt="Rizwan - Web Designer & Developer" 
               referrerPolicy="no-referrer"
               className="w-24 h-24 rounded-full object-cover ring-2 ring-amber-400/90 shadow-2xl shadow-amber-500/30"
+              onError={(e) => { (e.target as HTMLImageElement).src = '/rizwan_admin.jpg'; }}
             />
             <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-slate-950 border border-amber-500/60 flex items-center justify-center text-amber-400 shadow-md">
               <Lock className="w-3.5 h-3.5" />
@@ -257,10 +271,11 @@ export const AdminView: React.FC<AdminViewProps> = ({ currentUser }) => {
       <div className="bg-gradient-to-r from-amber-500/15 via-purple-500/10 to-indigo-500/15 border border-amber-500/30 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-2xl">
         <div className="flex items-center gap-4">
           <img 
-            src="/rizwan_admin.jpg" 
+            src={rizwanAdminBadge} 
             alt="Rizwan - Web Designer & Developer" 
             referrerPolicy="no-referrer"
             className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover ring-2 ring-amber-400 shadow-xl shadow-amber-500/25 shrink-0"
+            onError={(e) => { (e.target as HTMLImageElement).src = '/rizwan_admin.jpg'; }}
           />
           <div>
             <div className="flex items-center gap-2 flex-wrap">

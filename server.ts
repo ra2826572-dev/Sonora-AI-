@@ -641,6 +641,12 @@ async function startServer() {
     res.json({ success: true, message: 'User deleted from system' });
   });
 
+  app.use(express.static(path.join(__dirname, 'public')));
+  app.use('/src/assets/images', express.static(path.join(__dirname, 'src/assets/images')));
+  app.get('/rizwan_admin.jpg', (_req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'rizwan_admin.jpg'));
+  });
+
   const vite = await createViteServer({
     server: { middlewareMode: true, hmr: process.env.DISABLE_HMR !== 'true' },
     appType: 'spa',
